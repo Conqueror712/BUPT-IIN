@@ -3,7 +3,7 @@ from torchvision import models, transforms
 from PIL import Image
 
 # 本地图像文件路径
-img_path = "./images/demo1.jpg"
+img_path = "./images/demo5.jpg"
 
 # 加载示例图像
 img = Image.open(img_path)
