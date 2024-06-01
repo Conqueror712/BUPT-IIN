@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- CSS files -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
+    <title>图像超分辨率</title>
+</head>
+
+<body>
+    <br>
+    <div class="common-set">
+        <div class="card w-50" style="background-color: #222222;">
+            <div class="card-body">
+                <!-- title -->
+                <p class="card-text"><small class="text-muted">Model: Real-ESRGAN</small></p>
+                <h1 class="alert alert-success" style="font-weight: bold;">智能信息网络大作业：图像超分辨率</h1>
+                <h4 class="card-title">（目前设置的放大比率：2x）</h4>
+                <br>
+                <hr>
+
+                <!-- Forms -->
+                <br>
+                <form method = post enctype = multipart/form-data>
+                    <div class="form-group">
+                        <label for="inputFile" style="font-weight: bold;">选择图像</label>
+                        <div class="input-group">
+                          <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="inputFile" name="filename">
+                            <label class="custom-file-label" for="inputFile" data-browse="浏览">选择你想要放大的图片（JPG or PNG）</label>
+                          </div>
+                          <div class="input-group-append">
+                            <button type="button" class="btn btn-outline-secondary input-group-text" id="inputFileReset">取消</button>
+                          </div>
+                        </div>
+                      </div>
+                    {% if error_message %}
+                    <p style="color: red;">{{ error_message }}</p>
+                    {% endif %}
+                    <p style="color: aqua;"><input type = submit value = "开始超分辨率" class="btn btn-primary">
+                    注意：当进行处理时，请勿关闭界面</p>
+                </form>
+                <br>
+                <hr>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+        <script>
+            bsCustomFileInput.init();
+            document.getElementById('inputFileReset').addEventListener('click', function() {
+                bsCustomFileInput.destroy();
+
+                var elem = document.getElementById('inputFile');
+                elem.value = '';
+                var clone = elem.cloneNode(false);
+                elem.parentNode.replaceChild(clone, elem);
+
+                bsCustomFileInput.init();
+            });
+        </script>
+    </div>
+</body>
+</html>

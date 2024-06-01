@@ -8,10 +8,10 @@ from tqdm import tqdm
 
 # Load data
 def read_mrpc_dataset(file_path):
-    df = pd.read_csv(file_path, sep='\t', quoting=3)
+    df = pd.read_csv(file_path, sep='\t', quoting=3) # Ignoring double quotes
     return df
 
-# Compute evaluation metrics
+# Load BERT model and tokenizer
 def load_bert_model(model_name, num_labels):
     tokenizer = BertTokenizer.from_pretrained(model_name)
     model = BertForSequenceClassification.from_pretrained(model_name, num_labels=num_labels)
@@ -42,6 +42,14 @@ def preprocess_data(df, tokenizer, max_length):
 
     return input_ids, attention_masks
 
+# Compute evaluation metrics
+def compute_metrics(true_labels, predicted_labels):
+    accuracy = accuracy_score(true_labels, predicted_labels)
+    precision = precision_score(true_labels, predicted_labels)
+    recall = recall_score(true_labels, predicted_labels)
+    f1 = f1_score(true_labels, predicted_labels)
+    return accuracy, precision, recall, f1
+
 
 def main():
     # Parameters setting
@@ -50,7 +58,7 @@ def main():
     batch_size = 32
     num_epochs = 3
     learning_rate = 5e-5
-    num_labels = 2  # Binary classification
+    num_labels = 2
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     # Load data

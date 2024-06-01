@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- CSS files -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
+    <title>图像超分辨率处理结果</title>
+</head>
+
+<body>
+
+    <br>
+    <div class="common-set">
+        <table width="1000px">
+            <tr>
+                <td colspan="2">
+                    <h2 class="alert alert-success" role="alert" style="font-weight: bold;">转换完成</h2>
+                </td>
+            </tr>
+            <tr>
+                <td width="50%" class="td_center">
+                    <p style="font-weight: bold;">原始图像</p>
+                </td>
+                <td width="50%" class="td_center">
+                    <p style="font-weight: bold;">超分辨率图像</p>
+                </td>
+            </tr>
+            <tr>
+                <td class="td_center">
+                    <img src="{{ image_org }}">
+                </td>
+                <td class="td_center">
+                    <img src="{{ image_up }}">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <h4 class="alert alert-primary" role="alert" style="font-weight: bold;">下载放大处理后的图像</h4>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    点击下面的按钮，即可下载图像<br><br>
+                    <button onclick="downloadImage()" type="button" class="btn btn-primary btn-lg">下载</button>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="td_center">
+                    <hr>
+                    <button type="button" class="btn btn-outline-dark"><a href="./">回到首页</a></button>
+                    <hr>
+                </td>
+            </tr>
+        </table>
+        
+        <script>
+            function downloadImage() {
+                const imageUpURL = "{{ image_up }}";
+                const link = document.createElement("a");
+                link.href = imageUpURL;
+                link.download = "拡大画像.jpg";
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        </script>
+    </div>
+
+</body>
+</html>

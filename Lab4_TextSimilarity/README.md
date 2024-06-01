@@ -30,6 +30,7 @@
 - `read_mrpc_dataset(file_path)`: 读取 MRPC 数据集。
 - `load_bert_model(model_name, num_labels)`: 加载预训练的 BERT 模型和 tokenizer。
 - `preprocess_data(df, tokenizer, max_length)`: 数据预处理，将文本转换为 BERT 模型的输入格式。
+- `compute_metrics(true_labels, predicted_labels)`: 指标计算。
 
 #### 2.3 算法的伪代码
 
@@ -46,6 +47,10 @@ load_bert_model(model_name, num_labels):
 preprocess_data(df, tokenizer, max_length):
     对数据框中的文本进行分词和转换为BERT模型的输入格式
     返回输入的input_ids和attention_masks
+    
+compute_metrics(true_labels, predicted_labels):(true_labels, predicted_labels):
+    计算统计指标
+    返回accuracy, precision, recall, f1
 
 main():
     设置参数
@@ -93,9 +98,6 @@ main():
 ### 六、附录
 
 ```Python
-"""
-Lab4 文本相似度源代码：
-"""
 import pandas as pd
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from transformers import BertTokenizer, BertForSequenceClassification, AdamW
@@ -106,10 +108,10 @@ from tqdm import tqdm
 
 # Load data
 def read_mrpc_dataset(file_path):
-    df = pd.read_csv(file_path, sep='\t', quoting=3)
+    df = pd.read_csv(file_path, sep='\t', quoting=3) # Ignoring double quotes
     return df
 
-# Compute evaluation metrics
+# Load BERT model and tokenizer
 def load_bert_model(model_name, num_labels):
     tokenizer = BertTokenizer.from_pretrained(model_name)
     model = BertForSequenceClassification.from_pretrained(model_name, num_labels=num_labels)
@@ -140,6 +142,14 @@ def preprocess_data(df, tokenizer, max_length):
 
     return input_ids, attention_masks
 
+# Compute evaluation metrics
+def compute_metrics(true_labels, predicted_labels):
+    accuracy = accuracy_score(true_labels, predicted_labels)
+    precision = precision_score(true_labels, predicted_labels)
+    recall = recall_score(true_labels, predicted_labels)
+    f1 = f1_score(true_labels, predicted_labels)
+    return accuracy, precision, recall, f1
+
 
 def main():
     # Parameters setting
@@ -148,7 +158,7 @@ def main():
     batch_size = 32
     num_epochs = 3
     learning_rate = 5e-5
-    num_labels = 2  # Binary classification
+    num_labels = 2
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     # Load data
@@ -204,5 +214,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 ```
 

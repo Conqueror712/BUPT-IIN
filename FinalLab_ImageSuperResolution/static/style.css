@@ -1,0 +1,26 @@
+body {
+  background-color: #111111;
+}
+
+.common-set {
+  background-color: #111111;
+  color: whitesmoke;
+  padding-left: 50px;
+}
+
+hr {
+  height: 3px;
+  background: linear-gradient(to right, steelblue, white);
+  border: none;
+}
+
+table {
+  background-color: #222222;
+  border-collapse:separate;
+  border-spacing:10px;
+  border: solid 0px red;
+ }
+
+.td_center {
+  text-align: center;
+}
